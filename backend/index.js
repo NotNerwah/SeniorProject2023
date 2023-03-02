@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import { MongoClient, ObjectId } from 'mongodb';
 
 const MONGO_URL = 'mongodb://127.0.0.1:27017';
-const MONGO_DATABASE = "t"; // we're using the default test database
+const MONGO_DATABASE = "t"; 
 
 
 let dbClient = null;
@@ -26,23 +26,21 @@ const getConnection = async () => {
     return dbClient.db(MONGO_DATABASE);
 }
 
-// returns every song in  the database
+// returns every item in  the database
 const getInventory = async () => {
     const database = await getConnection();
     const values = await database.collection("fs.files").find({}).toArray();
     return values;
 }
 
-
-
-// delete a song from the db
+// delete an item from the db
 const deleteItem = async (sku) => {
     const database = await getConnection();
     console.log("Deleting " + sku)
     await database.collection("t").deleteOne({sku: ObjectId(sku)});    
 }
 
-// add a song to the db
+// add an item to the db
 const addItem = async (sku, name, category, quantity, price) => {
     const database = await getConnection();
     const itemRecord = {
@@ -68,7 +66,7 @@ const routes = [
     },
     {
         method: 'get',
-        path: '/library',
+        path: '/inventory',
         handler: async (req, res) => {
             const values = await getInventory();
             res.status(200).json(values);
