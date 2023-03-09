@@ -3,14 +3,14 @@ import bodyParser from 'body-parser';
 import { MongoClient, ObjectId } from 'mongodb';
 
 const MONGO_URL = 'mongodb://127.0.0.1:27017';
-const MONGO_DATABASE = "t"; 
+const MONGO_DATABASE = "warehouse-inventory"; 
 
 
 let dbClient = null;
 const connect = async (url) => {
     let client = await MongoClient.connect(url, {
         directConnection: true,
-        appName : "musicapp"
+        appName : "warehouseApp"
     });    
     return client;
 }
@@ -37,7 +37,7 @@ const getInventory = async () => {
 const deleteItem = async (sku) => {
     const database = await getConnection();
     console.log("Deleting " + sku)
-    await database.collection("t").deleteOne({sku: ObjectId(sku)});    
+    await database.collection("warehouse-inventory").deleteOne({sku: ObjectId(sku)});    
 }
 
 // add an item to the db
@@ -52,7 +52,7 @@ const addItem = async (sku, name, category, quantity, price) => {
 
     }
     console.log("Adding " + sku + ", " + name + ", " + category + ", " + quantity + ", " + price)
-    await database.collection("t").insertOne(itemRecord);    
+    await database.collection("warehouse-inventory").insertOne(itemRecord);    
 }
 
 // these are the routes for the backend APIs
