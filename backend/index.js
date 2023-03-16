@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import { MongoClient, ObjectId } from 'mongodb';
 
 const MONGO_URL = 'mongodb://127.0.0.1:27017';
-const MONGO_DATABASE = "warehouse-inventory"; 
+const MONGO_DATABASE = "test";
 
 
 let dbClient = null;
@@ -29,7 +29,7 @@ const getConnection = async () => {
 // returns every item in  the database
 const getInventory = async () => {
     const database = await getConnection();
-    const values = await database.collection("fs.files").find({}).toArray();
+    const values = await database.collection("warehouse-inventory").find({}).toArray();
     return values;
 }
 
@@ -55,6 +55,32 @@ const addItem = async (sku, name, category, quantity, price) => {
     await database.collection("warehouse-inventory").insertOne(itemRecord);    
 }
 
+const getOrder = async () => {
+    const database = await getConnection();
+    const values = await database.collection("orders").find({}).toArray();
+    return values;
+}
+
+const cancelOrder = async (orderNumber) => {
+    const database = await getConnection();
+    console.log("Cancelling " + orderNumber)
+    await database.collection("orders").deleteOne({orderNumber: ObjectId(orderNumber)});    
+}
+
+const addOrder = async (orderNumber, sku, itemName, customerName, customerAddr, customerPhone) => {
+    const database = await getConnection();
+    const orderRecord = {
+        "orderNumber" : orderNumber,
+        "sku" : sku,
+        "itemName" : itemName,
+        "customerName" : customerName,
+        "customerAddr" : customerAddr,
+        "customerPhone" : customerPhone
+    }
+    console.log("Adding " + orderNumber + ", " + sku + ", " + itemName + ", " + customerName + ", " + customerAddr + ", " + customerPhone)
+    await database.collection("orders").insertOne(orderRecord); 
+}
+
 // these are the routes for the backend APIs
 const routes = [
     {
@@ -69,6 +95,15 @@ const routes = [
         path: '/inventory',
         handler: async (req, res) => {
             const values = await getInventory();
+            res.status(200).json(values);
+        },
+    },
+
+    {
+        method: 'get',
+        path: '/orders',
+        handler: async (req, res) => {
+            const values = await getOrder();
             res.status(200).json(values);
         },
     },
@@ -88,6 +123,24 @@ const routes = [
         handler: async (req, res) => {
             const { sku } = req.body;
             await deleteItem(sku);
+            res.status(200).json({ status: "ok"});
+        },
+    },
+    {
+        method: 'post',
+        path: '/cancelorder',
+        handler: async (req, res) => {
+            const { orderNumber } = req.body;
+            await cancelOrder(orderNumber);
+            res.status(200).json({ status: "ok"});
+        },
+    },
+    {
+        method: 'post',
+        path: '/addorder',
+        handler: async (req, res) => {
+            const { orderNumber } = req.body;
+            await addOrder(orderNumber);
             res.status(200).json({ status: "ok"});
         },
     },
