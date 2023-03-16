@@ -139,8 +139,8 @@ const routes = [
         method: 'post',
         path: '/addorder',
         handler: async (req, res) => {
-            const { orderNumber } = req.body;
-            await addOrder(orderNumber);
+            const {orderNumber, sku, itemName, customerName, customerAddr, customerPhone} = req.body;
+            await addOrder(orderNumber,sku, itemName, customerName, customerAddr, customerPhone);
             res.status(200).json({ status: "ok"});
         },
     },
