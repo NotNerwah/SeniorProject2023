@@ -1,3 +1,5 @@
+import React,{useState,useEffect} from 'react'
+
 const MainMenuComponent = () =>{
     return <div>
         <h1>Warehouse Inventory Manager</h1>
