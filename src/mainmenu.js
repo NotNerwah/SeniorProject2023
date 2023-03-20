@@ -1,6 +1,5 @@
-function mainmenu() {
-    return (
-    <div className="mainmenu">
+const MainMenuComponent = () =>{
+    return <div>
         <h1>Warehouse Inventory Manager</h1>
         <nav>
             <ul>
@@ -16,6 +15,12 @@ function mainmenu() {
             </ul>
         </nav>
     </div>
-    );
+    }
+function mainmenu() {
+    return (
+        <div className="mainmenu">
+          <MainMenuComponent/>
+        </div>
+      );
 }
 export default mainmenu;

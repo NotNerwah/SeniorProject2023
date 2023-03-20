@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import { MongoClient, ObjectId } from 'mongodb';
 
 const MONGO_URL = 'mongodb://127.0.0.1:27017';
-const MONGO_DATABASE = "test";
+const MONGO_DATABASE = "t";
 
 
 let dbClient = null;
