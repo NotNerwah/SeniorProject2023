@@ -1,4 +1,4 @@
-import './App.css';
+import './App2.css';
 import React,{useState,useEffect} from 'react'
 
 const Component1 = () =>{
