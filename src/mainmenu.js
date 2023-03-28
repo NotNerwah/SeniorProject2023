@@ -1,28 +1,13 @@
 import React,{useState,useEffect} from 'react'
 
 const MainMenuComponent = () =>{
-    return <div>
-        <h1>Warehouse Inventory Manager</h1>
-        <nav>
-            <ul>
-                <li>
-                    <a href="index.html">Home</a>
-                </li>
-                <li>
-                    <a href="Inventory.html">Inventory Manager</a>
-                </li>
-                <li>
-                    <a href="Orders.html">Order Manager</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+    return(<h1>Warehouse Inventory Manager</h1>)
     }
-function mainmenu() {
+function mainMenu() {
     return (
-        <div className="mainmenu">
+        <div className="MainMenu">
           <MainMenuComponent/>
         </div>
       );
 }
-export default mainmenu;
+export default mainMenu;
