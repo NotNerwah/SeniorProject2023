@@ -10,7 +10,7 @@ function App() {
   // eslint-disable-next-line
   return (
     <div className="App">
-      <Router><Navbar/><Routes><Route exact path='/' element={<Home />}/><Route path = '/inventory' element={<Inventory />}/></Routes></Router>
+      <Router><Navbar/><Routes><Route exact path='/' element={<Home />}/></Routes></Router>
     </div>
   );
 }

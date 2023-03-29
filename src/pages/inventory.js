@@ -1,3 +1,4 @@
+import './inventory.css'
 import React from 'react'
 
 function displayInventory(inventory){
