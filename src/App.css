@@ -8,24 +8,12 @@ h1{
 body{
     background-color: blue;
 }
-nav {
-    float: none;
-    text-align: center;
-}
-nav ul {
-    margin: 0px;
-    padding: 5px 0px 5px 30px;}
-nav li {
-    display: inline;
-    margin-right: 40px;}
-
-nav li a{
-    font-size: x-large;
-    color: antiquewhite;
-}
 .center{
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
+}
+table{
+    background-color: whitesmoke;
 }

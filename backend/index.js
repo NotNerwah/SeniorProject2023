@@ -3,14 +3,14 @@ import bodyParser from 'body-parser';
 import { MongoClient, ObjectId } from 'mongodb';
 
 const MONGO_URL = 'mongodb://127.0.0.1:27017';
-const MONGO_DATABASE = "t";
+const MONGO_DATABASE = "test";
 
 
 let dbClient = null;
 const connect = async (url) => {
     let client = await MongoClient.connect(url, {
         directConnection: true,
-        appName : "warehouseApp"
+        appName : "warehouseinventorymanager"
     });    
     return client;
 }
