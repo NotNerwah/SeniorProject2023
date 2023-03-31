@@ -10,10 +10,17 @@ body{
 }
 .center{
     display: block;
+    margin-top: 5%;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
 }
+h2{
+    border-color: white;
+}
 table{
     background-color: whitesmoke;
+}
+thead{
+    color:black
 }

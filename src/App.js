@@ -9,7 +9,7 @@ import Inventory from './pages/inventory';
 function App() {
   // eslint-disable-next-line
   return (
-    <div className="App">
+    <div className="App"><h1>Warehouse Inventory Manager</h1>
       <Router><Navbar/><Routes><Route exact path='/' element={<Home />}/><Route exact path='/inventory' element={<Inventory/>}/></Routes></Router>
     </div>
   );

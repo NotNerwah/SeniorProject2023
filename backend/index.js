@@ -29,15 +29,15 @@ const getConnection = async () => {
 // returns every item in  the database
 const getInventory = async () => {
     const database = await getConnection();
-    const values = await database.collection("warehouse-inventory").find({}).toArray();
+    const values = await database.collection("warehouseinventory").find({}).toArray();
     return values;
 }
 
 // delete an item from the db
-const deleteItem = async (sku) => {
+const deleteItem = async (id) => {
     const database = await getConnection();
-    console.log("Deleting " + sku)
-    await database.collection("warehouse-inventory").deleteOne({sku: ObjectId(sku)});    
+    console.log("Deleting " + id)
+    await database.collection("warehouseinventory").deleteOne({_id: ObjectId(id)});    
 }
 
 // add an item to the db
@@ -52,7 +52,7 @@ const addItem = async (sku, name, category, quantity, price) => {
 
     }
     console.log("Adding " + sku + ", " + name + ", " + category + ", " + quantity + ", " + price)
-    await database.collection("warehouse-inventory").insertOne(itemRecord);    
+    await database.collection("warehouseinventory").insertOne(itemRecord);    
 }
 
 const getOrder = async () => {
@@ -121,8 +121,8 @@ const routes = [
         method: 'post',
         path: '/deleteitem',
         handler: async (req, res) => {
-            const { sku } = req.body;
-            await deleteItem(sku);
+            const { _id } = req.body;
+            await deleteItem(_id);
             res.status(200).json({ status: "ok"});
         },
     },

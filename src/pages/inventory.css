@@ -1,0 +1,57 @@
+h2{
+    text-align: center;
+}
+table{
+    border-color: black;
+}
+table thead > tr:nth-child(odd) td, table thead > tr:nth-child(odd) th{
+    background:#272680;
+    color: #fff;
+    padding: 4px;
+}
+
+table tr:nth-child(odd) td{
+    background:#ccc;
+    padding: 4px;
+}
+
+table tr:nth-child(even) td{
+    background:#fff;
+    padding: 4px;
+}
+table thead > td {
+    text-align: center;
+    padding: 3px;
+}
+
+.invComp{
+    border: solid;
+    background-color: antiquewhite;
+    margin: 20px;
+    padding: 20px;
+    width: fit-content;
+    align-items: center;
+}
+h3{
+    text-align: center;
+}
+.inputs input{
+    width: 100%
+}
+
+.textInput{
+    height: fit-content;
+    font-size: large;
+}
+
+.addButton{
+    background-color: gold;
+    width: 50%;
+    font-size: large;
+}
+
+.add{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
