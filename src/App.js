@@ -11,7 +11,7 @@ function App() {
   // eslint-disable-next-line
   return (
     <div className="App"><h1>Warehouse Inventory Manager</h1>
-      <Router><Navbar/><Routes><Route exact path='/' element={<Home />}/><Route exact path='/inventory' element={<Inventory/>}/><Route exact path='/inventoryadjustment' element={<InventoryAdjustment/>}/></Routes></Router>
+      <Router><Navbar/><Routes><Route exact path='/' element={<Home />}/><Route path='/inventory' element={<Inventory/>}/><Route path='/inventoryadjustment' element={<InventoryAdjustment/>}/></Routes></Router>
     </div>
   );
 }

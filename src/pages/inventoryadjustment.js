@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import './inventory.css'
+import './inventoryadjustment.css'
 
 const fetchData = async (url)=> {
     let data = await fetch(url);
@@ -80,9 +80,9 @@ const AddInventoryItem = () => {
     </div>)
 }
 
-const InventoryComp = ({component}) => {
+const InventoryAdjustComp = ({component}) => {
     return (
-        <div className='invComp'>
+        <div className='invAdjComp'>
             {component}
         </div>
     )
@@ -90,9 +90,9 @@ const InventoryComp = ({component}) => {
 
 const InventoryAdjustment = () => {
     return (
-        <div className='Inventory'>
-            <InventoryComp component={<DeleteInventoryItem/>}/>
-            <InventoryComp component={<AddInventoryItem/>}/>
+        <div className='InventoryAdjustment'>
+            <InventoryAdjustComp component={<DeleteInventoryItem/>}/>
+            <InventoryAdjustComp component={<AddInventoryItem/>}/>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+/*import React,{useState} from 'react'
 import './orders.css'
 
 const fetchData = async (url)=> {
@@ -28,4 +28,4 @@ function displayDOrders(orders,deleteOrder){
     </tr>);
 
     return [tHeads,tBody]
-}
+}*/
