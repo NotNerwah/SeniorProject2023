@@ -10,7 +10,7 @@ const fetchData = async (url)=> {
 
 function displayDInventory(inventory,deleteItem){
     let tHeads = <tr><td key="hsku">SKU</td>
-    <td key="hname">NAME</td>
+    <td key="hname">ITEM NAME</td>
     <td key="hcategory">CATEGORY</td>
     <td key="hquantity">QUANTITY</td>
     <td key="hprice">PRICE</td>
@@ -19,7 +19,7 @@ function displayDInventory(inventory,deleteItem){
 
     let tBody = inventory.map((d,i)=> <tr key ={"row " + i}>
     <td key={d.sku + " sku"}>{d.sku}</td>
-    <td key={d.sku + " name"}>{d.name}</td>
+    <td key={d.sku + " itemName"}>{d.itemName}</td>
     <td key={d.sku + " category"}>{d.category}</td>
     <td key={d.sku + " quantity"}>{d.quantity}</td>
     <td key={d.sku + " price"}>{d.price}</td>
@@ -60,19 +60,19 @@ async function addData(newItem){
 const AddInventoryItem = () => {
     const [inventory, setInventory] = useState("")
     const [sku, setSKU] = useState("")
-    const [name, setName] = useState("")
+    const [itemName, setItemName] = useState("")
     const [category, setCategory] = useState("")
     const [quantity, setQuantity] = useState("")
     const [price, setPrice] = useState("")
 
     const addItem = () => {
-        let newItem = {sku: sku, name: name, category: category, quantity: quantity, price: price}
+        let newItem = {sku: sku, itemName: itemName, category: category, quantity: quantity, price: price}
         addData(newItem)
         setInventory(inventory.concat(newItem))
     }
     return (<div><h3>Add Item</h3>
     <div className="inputs">SKU: <input type="text" className='textInput' onChange={event => setSKU(event.target.value)} required></input></div>
-    <div className="inputs">Name: <input type="text" className='textInput' onChange={event => setName(event.target.value)}></input></div>
+    <div className="inputs">Name: <input type="text" className='textInput' onChange={event => setItemName(event.target.value)}></input></div>
     <div className="inputs">Category: <input type="text" className='textInput' onChange={event => setCategory(event.target.value)}></input></div>
     <div className="inputs">Quantity: <input type="text" className='textInput' onChange={event => setQuantity(event.target.value)}required></input></div>
     <div className="inputs">Price: <input type="text" className='textInput' onChange={event => setPrice(event.target.value)}required></input></div>

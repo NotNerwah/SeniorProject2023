@@ -41,17 +41,17 @@ const deleteItem = async (id) => {
 }
 
 // add an item to the db
-const addItem = async (sku, name, category, quantity, price) => {
+const addItem = async (sku, itemName, category, quantity, price) => {
     const database = await getConnection();
     const itemRecord = {
         "sku" : sku,
-        "name" : name,
+        "itemName" : itemName,
         "category" : category,
         "quantity" : quantity,
         "price" : price
 
     }
-    console.log("Adding " + sku + ", " + name + ", " + category + ", " + quantity + ", " + price)
+    console.log("Adding " + sku + ", " + itemName + ", " + category + ", " + quantity + ", " + price)
     await database.collection("warehouseinventory").insertOne(itemRecord);    
 }
 
@@ -61,10 +61,10 @@ const getOrder = async () => {
     return values;
 }
 
-const cancelOrder = async (orderNumber) => {
+const cancelOrder = async (id) => {
     const database = await getConnection();
-    console.log("Cancelling " + orderNumber)
-    await database.collection("orders").deleteOne({orderNumber: ObjectId(orderNumber)});    
+    console.log("Cancelling " + id)
+    await database.collection("orders").deleteOne({_id: ObjectId(id)});    
 }
 
 const addOrder = async (orderNumber, sku, itemName, customerName, customerAddr, customerPhone) => {
@@ -101,7 +101,7 @@ const routes = [
 
     {
         method: 'get',
-        path: '/orders',
+        path: '/order',
         handler: async (req, res) => {
             const values = await getOrder();
             res.status(200).json(values);
@@ -112,8 +112,8 @@ const routes = [
         method: 'post',
         path: '/additem',
         handler: async (req, res) => {
-            const {sku, name, category, quantity, price} = req.body;
-            await addItem(sku, name, category, quantity, price);
+            const {sku, itemName, category, quantity, price} = req.body;
+            await addItem(sku, itemName, category, quantity, price);
             res.status(200).json({ status: "ok"});
         },
     },
@@ -130,8 +130,8 @@ const routes = [
         method: 'post',
         path: '/cancelorder',
         handler: async (req, res) => {
-            const { orderNumber } = req.body;
-            await cancelOrder(orderNumber);
+            const { _id } = req.body;
+            await cancelOrder(_id);
             res.status(200).json({ status: "ok"});
         },
     },

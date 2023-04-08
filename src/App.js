@@ -5,13 +5,14 @@ import Navbar from './components';
 import Home from './pages';
 import Inventory from './pages/inventory';
 import InventoryAdjustment from './pages/inventoryadjustment';
+import Orders from './pages/Orders';
 
 
 function App() {
   // eslint-disable-next-line
   return (
     <div className="App"><h1>Warehouse Inventory Manager</h1>
-      <Router><Navbar/><Routes><Route exact path='/' element={<Home />}/><Route path='/inventory' element={<Inventory/>}/><Route path='/inventoryadjustment' element={<InventoryAdjustment/>}/></Routes></Router>
+      <Router><Navbar/><Routes><Route exact path='/' element={<Home />}/><Route path='/inventory' element={<Inventory/>}/><Route path='/inventoryadjustment' element={<InventoryAdjustment/>}/><Route path='/Orders' element={<Orders/>}/></Routes></Router>
     </div>
   );
 }
