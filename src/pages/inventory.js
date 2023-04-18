@@ -85,9 +85,11 @@ const DisplayInventoryAndAddOrders = () => {
 
     return (<div><h2>Inventory Stock</h2><table><thead>{tableHeads}</thead><tbody>{tableBody}</tbody></table>{isOpen && <Popup content= 
         {<><b>Enter Customer Information</b>
-        <div>Customer Name:<input type="text" onChange={event => setCustomerName(event.target.value)} required></input></div>
-        <div>Customer Address:<input type="text" onChange={event => setCustomerAddr(event.target.value)} required></input></div>
-        <div>Customer Phone Number<input type="text" onChange={event => setCustomerPhone(event.target.value)} required></input></div>
+        <div>Customer Name: <input type="text" onChange={event => setCustomerName(event.target.value)} required></input></div>
+        <p></p>
+        <div>Customer Address: <input type="text" onChange={event => setCustomerAddr(event.target.value)} required></input></div>
+        <p></p>
+        <div>Customer Phone Number: <input type="text" onChange={event => setCustomerPhone(event.target.value)} required></input></div>
         <div><button onClick={event => addOrder()}>Submit</button></div></>} handleClose= {togglePopup}/>}</div>)
 }
 
