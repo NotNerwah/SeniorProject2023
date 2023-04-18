@@ -32,12 +32,12 @@ function displayInventory(inventory, togglePopup){
     </tr>
 
     let tBody = inventory.map((d,i)=> <tr key ={"row " + i}>
-    <td key={d.id + " sku"}>{d.sku}</td>
-    <td key={d.id + " itemName"}>{d.itemName}</td>
-    <td key={d.id + " category"}>{d.category}</td>
-    <td key={d.id + " quantity"}>{d.quantity}</td>
-    <td key={d.id + " price"}>{d.price}</td>
-    <td key = {d.id + " orderbtn"}><button onClick = {event => togglePopup()}>Add to Order</button></td>
+    <td key={d._id + " sku"}>{d.sku}</td>
+    <td key={d._id + " itemName"}>{d.itemName}</td>
+    <td key={d._id + " category"}>{d.category}</td>
+    <td key={d._id + " quantity"}>{d.quantity}</td>
+    <td key={d._id + " price"}>{d.price}</td>
+    <td key = {d._id + " orderbtn"}><button onClick = {event => togglePopup()}>Add to Order</button></td>
     </tr>);
 
     return [tHeads,tBody]
@@ -54,7 +54,7 @@ async function addData(newOrder){
 const DisplayInventoryAndAddOrders = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [inventory, setInventory] = React.useState([])
-    const togglePopup = () => {
+    const togglePopup = (sku, itemName) => {
         setIsOpen(!isOpen)
     }
     
@@ -75,15 +75,15 @@ const DisplayInventoryAndAddOrders = () => {
     
     const addOrder = () => {
         setOrderNumber(orderNumber = generateOrderNumber(6));
-        setSKU(sku = inventory.indexOf(togglePopup))
-        setItemName(itemName = inventory.indexOf(togglePopup))
+        setSKU()
+        setItemName()
         let newOrder = {orderNumber: orderNumber, sku: sku, itemName: itemName, customerName: customerName, customerAddr: customerAddr, customerPhone: customerPhone}
         addData(newOrder)
         setOrders(order.concat(newOrder))
         togglePopup()
       }
 
-    return (<div><h2>What's in Stock?</h2><table><thead>{tableHeads}</thead><tbody>{tableBody}</tbody></table>{isOpen && <Popup content= 
+    return (<div><h2>Inventory Stock</h2><table><thead>{tableHeads}</thead><tbody>{tableBody}</tbody></table>{isOpen && <Popup content= 
         {<><b>Enter Customer Information</b>
         <div>Customer Name:<input type="text" onChange={event => setCustomerName(event.target.value)} required></input></div>
         <div>Customer Address:<input type="text" onChange={event => setCustomerAddr(event.target.value)} required></input></div>

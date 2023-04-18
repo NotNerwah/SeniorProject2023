@@ -27,13 +27,13 @@ export const NavLink = styled(Link)`
 export const NavMenu = styled.div`
   display: flex;
   align-items: center;
-  margin-right: -24px;
-  margin-left 350px;
+  margin-right: -25px;
+  margin-left 250px;
   /* Second Nav */
-  /* margin-right: 24px; */
+  margin-right: 25px;
   /* Third Nav */
-  /* width: 100vw;
-white-space: nowrap; */
+  width: 100vw;
+  white-space: nowrap; 
   @media screen and (max-width: 768px) {
     display: none;
   }
