@@ -32,6 +32,26 @@ function displayDOrders(orders,cancelOrder){
     return [tHeads,tBody]
 }
 
+function displayBOrders(backorders){
+    let tHeads = <tr><td key="hordernumber">ORDER #</td>
+    <td key="hsku">SKU</td>
+    <td key="hitemname">ITEM NAME</td>
+    <td key="hcategory">CATEGORY</td>
+    <td key="hquantity">QUANTITY</td>
+    <td key="hprice">PRICE</td>
+    </tr>
+
+    let tBody = backorders.map((d,i)=> <tr key ={"row " + i}>
+    <td key={d.id + " sku"}>{d.sku}</td>
+    <td key={d.id + " itemName"}>{d.itemName}</td>
+    <td key={d.id + " category"}>{d.category}</td>
+    <td key={d.id + " quantity"}>{d.quantity}</td>
+    <td key={d.id + " price"}>{d.price}</td>
+    </tr>);
+
+    return [tHeads,tBody]
+}
+
 const url = '/order'
 
 async function deleteData(id) {
@@ -55,6 +75,18 @@ const DisplayOrdersAndDelete = () => {
     return (<div><h2>Order Records</h2><table><thead>{tableHeads}</thead><tbody>{tableBody}</tbody></table></div>)
 }
 
+const DisplayBackorders = () => {
+    const [backorders, setBackorders] = React.useState([])
+    let [tableHeads, tableBody] = [];
+    React.useEffect(() => {
+        fetchData(url).then(r => setBackorders(r))
+    }, [])
+    if(backorders.length !== 0){
+        [tableHeads,tableBody] = displayBOrders(backorders)
+    }
+    return (<div><h2>Backorders</h2><table><thead>{tableHeads}</thead><tbody>{tableBody}</tbody></table></div>)
+}
+
 const OrderComp = ({component}) => {
     return (
         <div className='ordComp'>
@@ -66,6 +98,7 @@ const Orders = () => {
     return (
         <div className='Orders'>
             <OrderComp component={<DisplayOrdersAndDelete/>}/>
+            <OrderComp component={<DisplayBackorders/>}/>
         </div>
     );
 }

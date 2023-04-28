@@ -81,6 +81,19 @@ const addOrder = async (orderNumber, sku, itemName, quantity, customerName, cust
     console.log("Adding " + orderNumber + ", " + sku + ", " + itemName + ", " + quantity + ", " + customerName + ", " + customerAddr + ", " + customerPhone)
     await database.collection("orders").insertOne(orderRecord); 
 }
+const addBackorder = async (sku, itemName, category, quantity, price) => {
+    const database = await getConnection();
+    const backOrderRecord = {
+        "sku" : sku,
+        "itemName" : itemName,
+        "category" : category,
+        "quantity" : quantity,
+        "price" : price
+
+    }
+    console.log("Adding " + sku + ", " + itemName + ", " + category + ", " + quantity + ", " + price)
+    await database.collection("backorders").insertOne(backOrderRecord);    
+}
 
 // these are the routes for the backend APIs
 const routes = [
@@ -142,6 +155,15 @@ const routes = [
         handler: async (req, res) => {
             const {orderNumber, sku, itemName, quantity, customerName, customerAddr, customerPhone} = req.body;
             await addOrder(orderNumber,sku, itemName, quantity, customerName, customerAddr, customerPhone);
+            res.status(200).json({ status: "ok"});
+        },
+    },
+    {
+        method: 'post',
+        path: '/addbackorder',
+        handler: async (req, res) => {
+            const {sku, itemName, category, quantity, price} = req.body;
+            await addBackorder(sku, itemName, category, quantity, price);
             res.status(200).json({ status: "ok"});
         },
     },

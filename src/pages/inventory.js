@@ -32,12 +32,12 @@ function displayInventory(inventory, togglePopup){
     </tr>
 
     let tBody = inventory.map((d,i)=> <tr key ={"row " + i}>
-    <td key={d._id + " sku"}>{d.sku}</td>
-    <td key={d._id + " itemName"}>{d.itemName}</td>
-    <td key={d._id + " category"}>{d.category}</td>
-    <td key={d._id + " quantity"}>{d.quantity}</td>
-    <td key={d._id + " price"}>{d.price}</td>
-    <td key = {d._id + " orderbtn"}><button class="orderBtn" onClick = {event => togglePopup()}>Add to Order</button></td>
+    <td key={d.id + " sku"}>{d.sku}</td>
+    <td key={d.id + " itemName"}>{d.itemName}</td>
+    <td key={d.id + " category"}>{d.category}</td>
+    <td key={d.id + " quantity"}>{d.quantity}</td>
+    <td key={d.id + " price"}>{d.price}</td>
+    <td key = {d.id + " orderbtn"}><button class="orderBtn" onClick = {event => togglePopup()}>Add to Order</button></td>
     </tr>);
 
     return [tHeads,tBody]
@@ -49,6 +49,10 @@ async function addData(newOrder){
     const response = await fetch('/addorder', {method : 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(newOrder)})
     return response.json()
   }
+async function addMoreData(newBackorder){
+    const response = await fetch('/addbackorder', {method : 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(newBackorder)})
+    return response.json()
+}
 
 const DisplayInventoryAndAddOrders = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -65,6 +69,7 @@ const DisplayInventoryAndAddOrders = () => {
         [tableHeads,tableBody] = displayInventory(inventory, togglePopup)
     }
     const [order, setOrders] = React.useState("")
+    const [backorders, setBackorders] = React.useState("")
     var [orderNumber, setOrderNumber] = React.useState("")
     var [sku, setSKU] = React.useState("")
     var [itemName, setItemName] = React.useState("")
@@ -72,12 +77,23 @@ const DisplayInventoryAndAddOrders = () => {
     const [customerName, setCustomerName] = React.useState("")
     const [customerAddr, setCustomerAddr] = React.useState("")
     const [customerPhone, setCustomerPhone] = React.useState("")
+    const [price, setPrice] = useState("")
+    const [category, setCategory] = useState("")
     
     const addOrder = () => {
         setOrderNumber(orderNumber = generateOrderNumber(6));
-        setSKU()
-        setItemName()
+        setSKU() //TODO
+        setItemName() //TODO
         setQuantity(quantity += 1)
+        //TODO: Decrement quantity value for item
+        if(inventory.find(this.item.quantity) === 0)
+        {
+            setCategory(category.valueOf)
+            setPrice(price.valueOf)
+            let newBackorder = {sku: sku, itemName: itemName, category: category, quantity: quantity, price: price}
+            addMoreData(newBackorder)
+            setBackorders(backorders.concat(newBackorder))
+        }
         let newOrder = {orderNumber: orderNumber, sku: sku, itemName: itemName, quantity: quantity, customerName: customerName, customerAddr: customerAddr, customerPhone: customerPhone}
         addData(newOrder)
         setOrders(order.concat(newOrder))

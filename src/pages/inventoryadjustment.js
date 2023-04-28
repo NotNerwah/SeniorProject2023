@@ -18,12 +18,12 @@ function displayDInventory(inventory,deleteItem){
     </tr>
 
     let tBody = inventory.map((d,i)=> <tr key ={"row " + i}>
-    <td key={d.sku + " sku"}>{d.sku}</td>
-    <td key={d.sku + " itemName"}>{d.itemName}</td>
-    <td key={d.sku + " category"}>{d.category}</td>
-    <td key={d.sku + " quantity"}>{d.quantity}</td>
-    <td key={d.sku + " price"}>{d.price}</td>
-    <td key={d.sku + "del"}><button onClick = {event => deleteItem(d._id)}>X</button></td>
+    <td key={d.id + " sku"}>{d.sku}</td>
+    <td key={d.id + " itemName"}>{d.itemName}</td>
+    <td key={d.id + " category"}>{d.category}</td>
+    <td key={d.id + " quantity"}>{d.quantity}</td>
+    <td key={d.id + " price"}>{d.price}</td>
+    <td key={d.id + "del"}><button onClick = {event => deleteItem(d._id)}>X</button></td>
     </tr>);
 
     return [tHeads,tBody]
