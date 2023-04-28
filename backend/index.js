@@ -67,17 +67,18 @@ const cancelOrder = async (id) => {
     await database.collection("orders").deleteOne({_id: ObjectId(id)});    
 }
 
-const addOrder = async (orderNumber, sku, itemName, customerName, customerAddr, customerPhone) => {
+const addOrder = async (orderNumber, sku, itemName, quantity, customerName, customerAddr, customerPhone) => {
     const database = await getConnection();
     const orderRecord = {
         "orderNumber" : orderNumber,
         "sku" : sku,
         "itemName" : itemName,
+        "quantity" : quantity,
         "customerName" : customerName,
         "customerAddr" : customerAddr,
         "customerPhone" : customerPhone
     }
-    console.log("Adding " + orderNumber + ", " + sku + ", " + itemName + ", " + customerName + ", " + customerAddr + ", " + customerPhone)
+    console.log("Adding " + orderNumber + ", " + sku + ", " + itemName + ", " + quantity + ", " + customerName + ", " + customerAddr + ", " + customerPhone)
     await database.collection("orders").insertOne(orderRecord); 
 }
 
@@ -139,8 +140,8 @@ const routes = [
         method: 'post',
         path: '/addorder',
         handler: async (req, res) => {
-            const {orderNumber, sku, itemName, customerName, customerAddr, customerPhone} = req.body;
-            await addOrder(orderNumber,sku, itemName, customerName, customerAddr, customerPhone);
+            const {orderNumber, sku, itemName, quantity, customerName, customerAddr, customerPhone} = req.body;
+            await addOrder(orderNumber,sku, itemName, quantity, customerName, customerAddr, customerPhone);
             res.status(200).json({ status: "ok"});
         },
     },

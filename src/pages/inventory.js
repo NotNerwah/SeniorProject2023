@@ -37,7 +37,7 @@ function displayInventory(inventory, togglePopup){
     <td key={d._id + " category"}>{d.category}</td>
     <td key={d._id + " quantity"}>{d.quantity}</td>
     <td key={d._id + " price"}>{d.price}</td>
-    <td key = {d._id + " orderbtn"}><button onClick = {event => togglePopup()}>Add to Order</button></td>
+    <td key = {d._id + " orderbtn"}><button class="orderBtn" onClick = {event => togglePopup()}>Add to Order</button></td>
     </tr>);
 
     return [tHeads,tBody]
@@ -50,14 +50,13 @@ async function addData(newOrder){
     return response.json()
   }
 
-
 const DisplayInventoryAndAddOrders = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [inventory, setInventory] = React.useState([])
-    const togglePopup = (sku, itemName) => {
+    const togglePopup = () => {
         setIsOpen(!isOpen)
     }
-    
+
     let [tableHeads, tableBody] = [];
     React.useEffect(() => {
         fetchData(url).then(r => setInventory(r))
@@ -69,6 +68,7 @@ const DisplayInventoryAndAddOrders = () => {
     var [orderNumber, setOrderNumber] = React.useState("")
     var [sku, setSKU] = React.useState("")
     var [itemName, setItemName] = React.useState("")
+    var [quantity, setQuantity] = React.useState(0)
     const [customerName, setCustomerName] = React.useState("")
     const [customerAddr, setCustomerAddr] = React.useState("")
     const [customerPhone, setCustomerPhone] = React.useState("")
@@ -77,13 +77,15 @@ const DisplayInventoryAndAddOrders = () => {
         setOrderNumber(orderNumber = generateOrderNumber(6));
         setSKU()
         setItemName()
-        let newOrder = {orderNumber: orderNumber, sku: sku, itemName: itemName, customerName: customerName, customerAddr: customerAddr, customerPhone: customerPhone}
+        setQuantity(quantity += 1)
+        let newOrder = {orderNumber: orderNumber, sku: sku, itemName: itemName, quantity: quantity, customerName: customerName, customerAddr: customerAddr, customerPhone: customerPhone}
         addData(newOrder)
         setOrders(order.concat(newOrder))
         togglePopup()
       }
 
-    return (<div><h2>Inventory Stock</h2><table><thead>{tableHeads}</thead><tbody>{tableBody}</tbody></table>{isOpen && <Popup content= 
+    return (<div><h2>Inventory Stock</h2><table><thead>{tableHeads}</thead><tbody>{tableBody}</tbody>
+        </table>{isOpen && <Popup content= 
         {<><b>Enter Customer Information</b>
         <div>Customer Name: <input type="text" onChange={event => setCustomerName(event.target.value)} required></input></div>
         <p></p>
@@ -92,6 +94,7 @@ const DisplayInventoryAndAddOrders = () => {
         <div>Customer Phone Number: <input type="text" onChange={event => setCustomerPhone(event.target.value)} required></input></div>
         <div><button onClick={event => addOrder()}>Submit</button></div></>} handleClose= {togglePopup}/>}</div>)
 }
+
 
 const InventoryComp = ({component}) => {
     return (

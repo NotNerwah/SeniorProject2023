@@ -11,9 +11,10 @@ function displayDOrders(orders,cancelOrder){
     let tHeads = <tr><td key="hordernumber">ORDER #</td>
     <td key="hsku">SKU</td>
     <td key="hitemname">ITEM NAME</td>
-    <td key="hcustomername">Customer</td>
-    <td key="hcustomeraddr">Address</td>
-    <td key="hcustomerphone">Phone Number</td>
+    <td key="hquantity">QUANTITY</td>
+    <td key="hcustomername">CUSTOMER</td>
+    <td key="hcustomeraddr">CUSTOMER ADDRESS</td>
+    <td key="hcustomerphone">CUSTOMER PHONE NUMBER</td>
     <td key="hdel">CANCEL</td>
     </tr>
 
@@ -21,6 +22,7 @@ function displayDOrders(orders,cancelOrder){
     <td key={d.orderNumber + " orderNumber"}>{d.orderNumber}</td>
     <td key={d.orderNumber + " sku"}>{d.sku}</td>
     <td key={d.orderNumber + " itemName"}>{d.itemName}</td>
+    <td key={d.orderNumber + " quantity"}>{d.quantity}</td>
     <td key={d.orderNumber + " customerName"}>{d.customerName}</td>
     <td key={d.orderNumber + " customerAddr"}>{d.customerAddr}</td>
     <td key={d.orderNumber + " customerPhone"}>{d.customerPhone}</td>
