@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./inventory.css"
 import Popup from "../components/popup"
+import $ from 'jquery';
 
 const numbers = '0123456789';
 
@@ -37,7 +38,7 @@ function displayInventory(inventory, togglePopup){
     <td key={d.id + " category"}>{d.category}</td>
     <td key={d.id + " quantity"}>{d.quantity}</td>
     <td key={d.id + " price"}>{d.price}</td>
-    <td key = {d.id + " orderbtn"}><button class="orderBtn" onClick = {event => togglePopup()}>Add to Order</button></td>
+    <td key = {d.id + " orderbtn"}><button className="orderBtn" onClick = {event => togglePopup()}>Add to Order</button></td>
     </tr>);
 
     return [tHeads,tBody]
@@ -47,10 +48,6 @@ const url = '/inventory';
 
 async function addData(newOrder){
     const response = await fetch('/addorder', {method : 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(newOrder)})
-    return response.json()
-  }
-async function addMoreData(newBackorder){
-    const response = await fetch('/addbackorder', {method : 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(newBackorder)})
     return response.json()
 }
 
@@ -69,7 +66,6 @@ const DisplayInventoryAndAddOrders = () => {
         [tableHeads,tableBody] = displayInventory(inventory, togglePopup)
     }
     const [order, setOrders] = React.useState("")
-    const [backorders, setBackorders] = React.useState("")
     var [orderNumber, setOrderNumber] = React.useState("")
     var [sku, setSKU] = React.useState("")
     var [itemName, setItemName] = React.useState("")
@@ -77,23 +73,24 @@ const DisplayInventoryAndAddOrders = () => {
     const [customerName, setCustomerName] = React.useState("")
     const [customerAddr, setCustomerAddr] = React.useState("")
     const [customerPhone, setCustomerPhone] = React.useState("")
-    const [price, setPrice] = useState("")
-    const [category, setCategory] = useState("")
-    
+    $("orderBtn").click(function() {
+        var itemSKU = $(this).closest("tr"),
+        itemItemName = $(this).closest("tr"),
+        tds = itemSKU.find("td:nth-child(0)"),
+        tds2 = itemItemName.find("td:nth-child(1)");
+        $.each(tds, function() {             
+            sku += (this).text();
+        });
+        $.each(tds2, function(){
+            itemName += (this).text()
+        });
+    })
     const addOrder = () => {
         setOrderNumber(orderNumber = generateOrderNumber(6));
-        setSKU() //TODO
-        setItemName() //TODO
+        setSKU(sku)
+        setItemName(itemName)
         setQuantity(quantity += 1)
         //TODO: Decrement quantity value for item
-        if(inventory.find(this.item.quantity) === 0)
-        {
-            setCategory(category.valueOf)
-            setPrice(price.valueOf)
-            let newBackorder = {sku: sku, itemName: itemName, category: category, quantity: quantity, price: price}
-            addMoreData(newBackorder)
-            setBackorders(backorders.concat(newBackorder))
-        }
         let newOrder = {orderNumber: orderNumber, sku: sku, itemName: itemName, quantity: quantity, customerName: customerName, customerAddr: customerAddr, customerPhone: customerPhone}
         addData(newOrder)
         setOrders(order.concat(newOrder))

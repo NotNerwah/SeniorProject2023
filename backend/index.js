@@ -61,6 +61,12 @@ const getOrder = async () => {
     return values;
 }
 
+const getBackorder = async () => {
+    const database = await getConnection();
+    const values = await database.collection("backorders").find({}).toArray();
+    return values;
+}
+
 const cancelOrder = async (id) => {
     const database = await getConnection();
     console.log("Cancelling " + id)
@@ -121,7 +127,14 @@ const routes = [
             res.status(200).json(values);
         },
     },
-    
+    {
+        method: 'get',
+        path: '/backorder',
+        handler: async (req, res) => {
+            const values = await getBackorder();
+            res.status(200).json(values);
+        },
+    },
     {
         method: 'post',
         path: '/additem',

@@ -53,6 +53,7 @@ function displayBOrders(backorders){
 }
 
 const url = '/order'
+const url2 ='/backorders'
 
 async function deleteData(id) {
     const response = await fetch('/cancelOrder',{method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{"_id": "'+id+'"}'})
@@ -79,7 +80,7 @@ const DisplayBackorders = () => {
     const [backorders, setBackorders] = React.useState([])
     let [tableHeads, tableBody] = [];
     React.useEffect(() => {
-        fetchData(url).then(r => setBackorders(r))
+        fetchData(url2).then(r => setBackorders(r))
     }, [])
     if(backorders.length !== 0){
         [tableHeads,tableBody] = displayBOrders(backorders)
