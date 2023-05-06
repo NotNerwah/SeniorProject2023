@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./inventory.css"
-import Popup from "../components/popup"
-import $ from 'jquery';
 
 const numbers = '0123456789';
+
+var count = [1,2,3,4,5,6,7,8,9,10]
 
 function generateOrderNumber(length){
     let result = 'WIM-';
@@ -22,7 +22,7 @@ const fetchData = async (url)=> {
 }
 
 
-function displayInventory(inventory, togglePopup){
+function displayInventory(inventory){
 
     let tHeads = <tr><td key="hsku">SKU</td>
     <td key="hitemname">ITEM NAME</td>
@@ -38,7 +38,6 @@ function displayInventory(inventory, togglePopup){
     <td key={d.id + " category"}>{d.category}</td>
     <td key={d.id + " quantity"}>{d.quantity}</td>
     <td key={d.id + " price"}>{d.price}</td>
-    <td key = {d.id + " orderbtn"}><button className="orderBtn" onClick = {event => togglePopup()}>Add to Order</button></td>
     </tr>);
 
     return [tHeads,tBody]
@@ -51,63 +50,67 @@ async function addData(newOrder){
     return response.json()
 }
 
-const DisplayInventoryAndAddOrders = () => {
-    const [isOpen, setIsOpen] = useState(false)
+const DisplayInventory = () => {
     const [inventory, setInventory] = React.useState([])
-    const togglePopup = () => {
-        setIsOpen(!isOpen)
-    }
-
     let [tableHeads, tableBody] = [];
     React.useEffect(() => {
         fetchData(url).then(r => setInventory(r))
     }, [])
     if(inventory.length !== 0){
-        [tableHeads,tableBody] = displayInventory(inventory, togglePopup)
+        [tableHeads,tableBody] = displayInventory(inventory)
     }
-    const [order, setOrders] = React.useState("")
+    return (<div><h2>Inventory Stock</h2><table><thead>{tableHeads}</thead><tbody>{tableBody}</tbody>
+        </table></div>)
+}
+
+const AddOrders = () => {
+    const [inventory, setInventory] = React.useState([])
+    const [order, setOrders] = useState([])
     var [orderNumber, setOrderNumber] = React.useState("")
-    var [sku, setSKU] = React.useState("")
-    var [itemName, setItemName] = React.useState("")
-    var [quantity, setQuantity] = React.useState(0)
+    const [sku, setSKU] = React.useState("")
+    const [itemName, setItemName] = React.useState("")
+    const [quantity, setQuantity] = React.useState(0)
     const [customerName, setCustomerName] = React.useState("")
     const [customerAddr, setCustomerAddr] = React.useState("")
     const [customerPhone, setCustomerPhone] = React.useState("")
-    $("orderBtn").click(function() {
-        var itemSKU = $(this).closest("tr"),
-        itemItemName = $(this).closest("tr"),
-        tds = itemSKU.find("td:nth-child(0)"),
-        tds2 = itemItemName.find("td:nth-child(1)");
-        $.each(tds, function() {             
-            sku += (this).text();
-        });
-        $.each(tds2, function(){
-            itemName += (this).text()
-        });
-    })
+    let [tableHeads, tableBody] = [];
+    React.useEffect(() => {
+        fetchData(url).then(r => setInventory(r))
+    }, [])
+    if(inventory.length !== 0){
+        [tableHeads,tableBody] = displayInventory(inventory)
+    }
+    
+    const handleChange = (event) =>{
+        setSKU(event.target.value)
+    }
+
+    const handleQuantChange = (event) =>{
+        setQuantity(event.target.value)
+    }
     const addOrder = () => {
-        setOrderNumber(orderNumber = generateOrderNumber(6));
-        setSKU(sku)
-        setItemName(itemName)
-        setQuantity(quantity += 1)
-        //TODO: Decrement quantity value for item
+        setOrderNumber(orderNumber = generateOrderNumber(6))
         let newOrder = {orderNumber: orderNumber, sku: sku, itemName: itemName, quantity: quantity, customerName: customerName, customerAddr: customerAddr, customerPhone: customerPhone}
         addData(newOrder)
         setOrders(order.concat(newOrder))
-        togglePopup()
       }
-
-    return (<div><h2>Inventory Stock</h2><table><thead>{tableHeads}</thead><tbody>{tableBody}</tbody>
-        </table>{isOpen && <Popup content= 
-        {<><b>Enter Customer Information</b>
+      if(sku === inventory.find(item => (<option value={item.sku} key={item.id}>{item.sku}</option>)))
+        {
+            setItemName(itemName === inventory.find(item => (<option value={item.itemName} key={item.id}>{(this).item.itemName}</option>)))
+        }
+      return (<div><h2>Add an Item to Order</h2><table hidden><thead>{tableHeads}</thead><tbody>{tableBody}</tbody></table>
+        <div className="inputs">SKU: <select value={sku} onChange={handleChange}><option value="">Choose an Item</option>{inventory.map(item => (<option value={item.sku} key={item.id}>{item.sku}</option>))}</select></div>
+        <p></p>
+        <div className="inputs">Quantity: <select value={quantity} onChange={handleQuantChange}><option value="">Choose a quantity(1-10): </option>{count.map(num => (<option>{num}</option>))}</select></div>
+        <p></p>
+        <b>Enter Customer Information</b>
         <div>Customer Name: <input type="text" onChange={event => setCustomerName(event.target.value)} required></input></div>
         <p></p>
         <div>Customer Address: <input type="text" onChange={event => setCustomerAddr(event.target.value)} required></input></div>
         <p></p>
         <div>Customer Phone Number: <input type="text" onChange={event => setCustomerPhone(event.target.value)} required></input></div>
-        <div><button onClick={event => addOrder()}>Submit</button></div></>} handleClose= {togglePopup}/>}</div>)
+        <div><button onClick={event => addOrder()}>Submit</button></div></div>)
 }
-
 
 const InventoryComp = ({component}) => {
     return (
@@ -119,7 +122,8 @@ const InventoryComp = ({component}) => {
 
 const Inventory = () => {
     return <div className='Inventory'>
-    <InventoryComp component={<DisplayInventoryAndAddOrders/>}/>
+    <InventoryComp component={<DisplayInventory/>}/>
+    <InventoryComp component={<AddOrders/>}/>
 </div>
 }
 export default Inventory;

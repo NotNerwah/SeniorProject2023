@@ -59,11 +59,11 @@ async function addData(newItem){
 
 const AddInventoryItem = () => {
     const [inventory, setInventory] = useState("")
-    const [sku, setSKU] = useState("")
+    const [sku, setSKU] = useState()
     const [itemName, setItemName] = useState("")
     const [category, setCategory] = useState("")
-    const [quantity, setQuantity] = useState("")
-    const [price, setPrice] = useState("")
+    const [quantity, setQuantity] = useState()
+    const [price, setPrice] = useState()
 
     const addItem = () => {
         let newItem = {sku: sku, itemName: itemName, category: category, quantity: quantity, price: price}
