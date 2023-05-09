@@ -6,9 +6,9 @@ const numbers = '0123456789'
 
 const receiveDay = new Date()
 receiveDay.setDate(receiveDay.getDate()+5)
-var mm = rd.getMonth() + 1
-var dd = rd.getDate()
-var yyyy = rd.getFullYear()
+var mm = receiveDay.getMonth() + 1
+var dd = receiveDay.getDate()
+var yyyy = receiveDay.getFullYear()
 const dateInfo = mm + "/" + dd + "/" + yyyy
 
 //const actualDate = new Date()
