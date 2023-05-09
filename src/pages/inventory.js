@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./inventory.css"
-import InventoryAdjustment from "./inventoryadjustment";
 
 const numbers = '0123456789';
 
