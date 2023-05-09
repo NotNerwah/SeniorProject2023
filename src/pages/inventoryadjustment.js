@@ -74,8 +74,8 @@ const AddInventoryItem = () => {
     <div className="inputs">SKU: <input type="text" className='textInput' onChange={event => setSKU(event.target.value)} required></input></div>
     <div className="inputs">Name: <input type="text" className='textInput' onChange={event => setItemName(event.target.value)}></input></div>
     <div className="inputs">Category: <input type="text" className='textInput' onChange={event => setCategory(event.target.value)}></input></div>
-    <div className="inputs">Quantity: <input type="text" className='textInput' onChange={event => setQuantity(event.target.value)}required></input></div>
-    <div className="inputs">Price: <input type="text" className='textInput' onChange={event => setPrice(event.target.value)}required></input></div>
+    <div className="inputs">Quantity: <input type="number" className='textInput' onChange={event => setQuantity(event.target.value)} required></input></div>
+    <div className="inputs">Price: <input type="number" className='textInput' onChange={event => setPrice(event.target.value)}required step=".00"></input></div>
     <div className='add'><button id ="Add" className="addButton" onClick={event => addItem()}>Add</button></div>
     </div>)
 }

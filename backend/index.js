@@ -73,31 +73,32 @@ const cancelOrder = async (id) => {
     await database.collection("orders").deleteOne({_id: ObjectId(id)});    
 }
 
-const addOrder = async (orderNumber, sku, itemName, quantity, customerName, customerAddr, customerPhone) => {
+const addOrder = async (orderNumber, sku, quantity, customerName, customerAddr, customerPhone) => {
     const database = await getConnection();
     const orderRecord = {
         "orderNumber" : orderNumber,
         "sku" : sku,
-        "itemName" : itemName,
         "quantity" : quantity,
         "customerName" : customerName,
         "customerAddr" : customerAddr,
         "customerPhone" : customerPhone
     }
-    console.log("Adding " + orderNumber + ", " + sku + ", " + itemName + ", " + quantity + ", " + customerName + ", " + customerAddr + ", " + customerPhone)
+    console.log("Adding " + orderNumber + ", " + sku + ", " + quantity + ", " + customerName + ", " + customerAddr + ", " + customerPhone)
     await database.collection("orders").insertOne(orderRecord); 
 }
-const addBackorder = async (sku, itemName, category, quantity, price) => {
+const addBackorder = async (backorderNumber, sku, itemName, category, quantity, price, date) => {
     const database = await getConnection();
     const backOrderRecord = {
+        "backorderNumber" : backorderNumber,
         "sku" : sku,
         "itemName" : itemName,
         "category" : category,
         "quantity" : quantity,
-        "price" : price
+        "price" : price,
+        "date" : date
 
     }
-    console.log("Adding " + sku + ", " + itemName + ", " + category + ", " + quantity + ", " + price)
+    console.log("Adding " + backorderNumber + ", " + sku + ", " + itemName + ", " + category + ", " + quantity + ", " + price+ ", " + date)
     await database.collection("backorders").insertOne(backOrderRecord);    
 }
 
@@ -166,8 +167,8 @@ const routes = [
         method: 'post',
         path: '/addorder',
         handler: async (req, res) => {
-            const {orderNumber, sku, itemName, quantity, customerName, customerAddr, customerPhone} = req.body;
-            await addOrder(orderNumber,sku, itemName, quantity, customerName, customerAddr, customerPhone);
+            const {orderNumber, sku, quantity, customerName, customerAddr, customerPhone} = req.body;
+            await addOrder(orderNumber,sku, quantity, customerName, customerAddr, customerPhone);
             res.status(200).json({ status: "ok"});
         },
     },
@@ -175,8 +176,8 @@ const routes = [
         method: 'post',
         path: '/addbackorder',
         handler: async (req, res) => {
-            const {sku, itemName, category, quantity, price} = req.body;
-            await addBackorder(sku, itemName, category, quantity, price);
+            const {backorderNumber, sku, itemName, category, quantity, price, date} = req.body;
+            await addBackorder(backorderNumber, sku, itemName, category, quantity, price, date);
             res.status(200).json({ status: "ok"});
         },
     },

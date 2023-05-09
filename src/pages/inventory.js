@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import "./inventory.css"
+import InventoryAdjustment from "./inventoryadjustment";
 
 const numbers = '0123456789';
 
 var count = [1,2,3,4,5,6,7,8,9,10]
+
+const currentDate = new Date()
+
+currentDate.setDate(7);
 
 function generateOrderNumber(length){
     let result = 'WIM-';
@@ -22,6 +27,7 @@ const fetchData = async (url)=> {
 }
 
 
+
 function displayInventory(inventory){
 
     let tHeads = <tr><td key="hsku">SKU</td>
@@ -29,7 +35,6 @@ function displayInventory(inventory){
     <td key="hcategory">CATEGORY</td>
     <td key="hquantity">QUANTITY</td>
     <td key="hprice">PRICE</td>
-    <td key = "haddbtn">ORDER?</td>
     </tr>
 
     let tBody = inventory.map((d,i)=> <tr key ={"row " + i}>
@@ -45,10 +50,12 @@ function displayInventory(inventory){
 
 const url = '/inventory';
 
+
 async function addData(newOrder){
     const response = await fetch('/addorder', {method : 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(newOrder)})
     return response.json()
 }
+
 
 const DisplayInventory = () => {
     const [inventory, setInventory] = React.useState([])
@@ -58,6 +65,7 @@ const DisplayInventory = () => {
     }, [])
     if(inventory.length !== 0){
         [tableHeads,tableBody] = displayInventory(inventory)
+
     }
     return (<div><h2>Inventory Stock</h2><table><thead>{tableHeads}</thead><tbody>{tableBody}</tbody>
         </table></div>)
@@ -68,7 +76,6 @@ const AddOrders = () => {
     const [order, setOrders] = useState([])
     var [orderNumber, setOrderNumber] = React.useState("")
     const [sku, setSKU] = React.useState("")
-    const [itemName, setItemName] = React.useState("")
     const [quantity, setQuantity] = React.useState(0)
     const [customerName, setCustomerName] = React.useState("")
     const [customerAddr, setCustomerAddr] = React.useState("")
@@ -80,24 +87,22 @@ const AddOrders = () => {
     if(inventory.length !== 0){
         [tableHeads,tableBody] = displayInventory(inventory)
     }
-    
+
     const handleChange = (event) =>{
         setSKU(event.target.value)
     }
 
     const handleQuantChange = (event) =>{
         setQuantity(event.target.value)
+
     }
     const addOrder = () => {
         setOrderNumber(orderNumber = generateOrderNumber(6))
-        let newOrder = {orderNumber: orderNumber, sku: sku, itemName: itemName, quantity: quantity, customerName: customerName, customerAddr: customerAddr, customerPhone: customerPhone}
+        let newOrder = {orderNumber: orderNumber, sku: sku, quantity: quantity, customerName: customerName, customerAddr: customerAddr, customerPhone: customerPhone}
         addData(newOrder)
         setOrders(order.concat(newOrder))
-      }
-      if(sku === inventory.find(item => (<option value={item.sku} key={item.id}>{item.sku}</option>)))
-        {
-            setItemName(itemName === inventory.find(item => (<option value={item.itemName} key={item.id}>{(this).item.itemName}</option>)))
-        }
+        inventory.update(item => item.quantity-1)
+    }
       return (<div><h2>Add an Item to Order</h2><table hidden><thead>{tableHeads}</thead><tbody>{tableBody}</tbody></table>
         <div className="inputs">SKU: <select value={sku} onChange={handleChange}><option value="">Choose an Item</option>{inventory.map(item => (<option value={item.sku} key={item.id}>{item.sku}</option>))}</select></div>
         <p></p>
