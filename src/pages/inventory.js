@@ -100,7 +100,6 @@ const AddOrders = () => {
         let newOrder = {orderNumber: orderNumber, sku: sku, quantity: quantity, customerName: customerName, customerAddr: customerAddr, customerPhone: customerPhone}
         addData(newOrder)
         setOrders(order.concat(newOrder))
-        inventory.update(item => item.quantity-1)
     }
       return (<div><h2>Add an Item to Order</h2><table hidden><thead>{tableHeads}</thead><tbody>{tableBody}</tbody></table>
         <div className="inputs">SKU: <select value={sku} onChange={handleChange}><option value="">Choose an Item</option>{inventory.map(item => (<option value={item.sku} key={item.id}>{item.sku}</option>))}</select></div>
