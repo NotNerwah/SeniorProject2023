@@ -5,7 +5,7 @@ import './orders.css'
 const numbers = '0123456789'
 
 const receiveDay = new Date()
-const rd = receiveDay.setDate(receiveDay.getDate()+5)
+receiveDay.setDate(receiveDay.getDate()+5)
 var mm = rd.getMonth() + 1
 var dd = rd.getDate()
 var yyyy = rd.getFullYear()
